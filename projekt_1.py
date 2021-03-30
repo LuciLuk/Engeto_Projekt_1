@@ -32,6 +32,8 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
 ODDELOVAC = '=' * 70
+counts = {'words': 0, 'first_cap': 0, 'all_cap': 0, 'all_low': 0, 'num': 0, 'sum_num': 0}
+
 
 username = input('Username: ')
 password = input('Password: ')
@@ -58,4 +60,23 @@ if choice.isalpha():
 elif int(choice) not in range(1, 4):
     print('You have to fill only NUMBERS between 1 - 3.')
 else:
-    print(choice)
+    text = TEXTS[int(choice) - 1].split()
+    counts['words'] = len(text)
+    for word in text:
+        if word[0].isupper():
+            counts['first_cap'] += 1
+        elif word.isupper():
+            counts['all_cap'] += 1
+        elif word.islower():
+            counts['all_low'] += 1
+        elif word.isnumeric():
+            counts['num'] += 1
+            counts['sum_num'] += int(word)
+    print(
+        f'''There are {counts['words']} words in the selected text.
+There are {counts['first_cap']} titlecase words.
+There are {counts['all_cap']} uppercase words.
+There are {counts['all_low']} lowercase words.
+There are {counts['num']} numeric strings.
+The sum of all the numbers is {counts['sum_num']}.'''
+    )
