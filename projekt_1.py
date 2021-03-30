@@ -1,4 +1,7 @@
-USERS = {'user': ['bob', 'ann', 'mike', 'liz'], 'key': ['123', 'pass123', 'password123', 'pass123']}
+USERS = {
+    'user': ['bob', 'ann', 'mike', 'liz'],
+    'key': ['123', 'pass123', 'password123', 'pass123']
+}
 TEXTS = ['''
 Situated about 10 miles west of Kemmerer, 
 Fossil Butte is a ruggedly impressive 
@@ -47,10 +50,12 @@ else:
     print('You are not registered user or you used incorrect password.'.center(70))
     quit()
 
-choice = int(input('Enter a number between 1 and 3 to select the text: '))
+choice = input('Enter a number between 1 and 3 to select the text: ')
 print(ODDELOVAC)
 
-if choice not in range(1, 4):
-    print('You have to fill only numbers between 1 - 3.')
-    quit()
+if choice.isalpha():
+    print('You have to fill only NUMBERS between 1 - 3.')
+elif int(choice) not in range(1, 4):
+    print('You have to fill only NUMBERS between 1 - 3.')
 else:
+    print(choice)
