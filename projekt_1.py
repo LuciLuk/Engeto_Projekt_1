@@ -31,7 +31,7 @@ other freshwater genera and herring similar to those
 in modern oceans. Other fish such as paddlefish, 
 garpike and stingray are also present.'''
 ]
-ODDELOVAC = '=' * 70
+ODDELOVAC = '=' * 60
 counts = {'words': 0, 'titles': 0, 'all_cap': 0, 'all_low': 0, 'num': 0, 'sum_num': 0}
 lenght = {}
 
@@ -43,13 +43,13 @@ username = username.lower()
 
 if username in USERS['user'] and password == USERS['key'][USERS['user'].index(username)]:
     print(
-        f'Welcome to the app, {username.title()}'.center(70),
-        'We have 3 texts to be analyzed.'.center(70),
+        f'Welcome to the app, {username.title()}'.center(60),
+        'We have 3 texts to be analyzed.'.center(60),
         sep="\n"
     )
     print(ODDELOVAC)
 else:
-    print('You are not registered user or you used incorrect password.'.center(70))
+    print('You are not registered user or you used incorrect password.'.center(60))
     quit()
 
 choice = input('Enter a number between 1 and 3 to select the text: ')
@@ -85,4 +85,15 @@ There are {counts['num']} numeric strings.
 The sum of all the numbers is {counts['sum_num']}.'''
     )
     print (ODDELOVAC)
-    print(lenght)
+
+    print(
+        'LEN|'.rjust(5), 'OCCURENCES'.ljust(15), '|NR.'.ljust(20)
+    )
+    print(ODDELOVAC)
+    keys = list(lenght.keys())
+    keys.sort()
+    for key in keys:
+        occurences = '*' * lenght[key]
+        print(
+            f'{key}|'.rjust(5), f'{occurences}'.ljust(15), f'|{lenght[key]}'.ljust(20)
+        )
