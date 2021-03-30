@@ -32,8 +32,8 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
 ODDELOVAC = '=' * 70
-counts = {'words': 0, 'first_cap': 0, 'all_cap': 0, 'all_low': 0, 'num': 0, 'sum_num': 0}
-
+counts = {'words': 0, 'titles': 0, 'all_cap': 0, 'all_low': 0, 'num': 0, 'sum_num': 0}
+lenght = {}
 
 username = input('Username: ')
 password = input('Password: ')
@@ -43,7 +43,7 @@ username = username.lower()
 
 if username in USERS['user'] and password == USERS['key'][USERS['user'].index(username)]:
     print(
-        f'Welcome to the app, {username[0].upper() + username[1:]}'.center(70),
+        f'Welcome to the app, {username.title()}'.center(70),
         'We have 3 texts to be analyzed.'.center(70),
         sep="\n"
     )
@@ -63,8 +63,12 @@ else:
     text = TEXTS[int(choice) - 1].split()
     counts['words'] = len(text)
     for word in text:
-        if word[0].isupper():
-            counts['first_cap'] += 1
+        word.strip(',.')
+        word_l = (len(word.strip(',.'))) #lenght of word
+        lenght.setdefault(word_l, 0)
+        lenght[word_l] += 1
+        if word.istitle():
+            counts['titles'] += 1
         elif word.isupper():
             counts['all_cap'] += 1
         elif word.islower():
@@ -74,9 +78,11 @@ else:
             counts['sum_num'] += int(word)
     print(
         f'''There are {counts['words']} words in the selected text.
-There are {counts['first_cap']} titlecase words.
+There are {counts['titles']} titlecase words.
 There are {counts['all_cap']} uppercase words.
 There are {counts['all_low']} lowercase words.
 There are {counts['num']} numeric strings.
 The sum of all the numbers is {counts['sum_num']}.'''
     )
+    print (ODDELOVAC)
+    print(lenght)
