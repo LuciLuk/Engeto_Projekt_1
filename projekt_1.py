@@ -32,16 +32,15 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
 ODDELOVAC = '=' * 60
-counts = {'words': 0, 'titles': 0, 'all_cap': 0, 'all_low': 0, 'num': 0, 'sum_num': 0}
-lenght = {}
+counts = {'words': 0, 'titles': 0, 'all_cap': 0,
+          'all_low': 0, 'num': 0, 'sum_num': 0}
 
 username = input('Username: ')
 password = input('Password: ')
 print(ODDELOVAC)
 
-username = username.lower()
-
-if username in USERS['user'] and password == USERS['key'][USERS['user'].index(username)]:
+if username.lower() in USERS['user'] \
+        and password == USERS['key'][USERS['user'].index(username.lower())]:
     print(
         f'Welcome to the app, {username.title()}'.center(60),
         'We have 3 texts to be analyzed.'.center(60),
@@ -49,24 +48,22 @@ if username in USERS['user'] and password == USERS['key'][USERS['user'].index(us
     )
     print(ODDELOVAC)
 else:
-    print('You are not registered user or you used incorrect password.'.center(60))
+    print(
+        'Unknown user or incorrect password.'.center(60)
+    )
     quit()
 
 choice = input('Enter a number between 1 and 3 to select the text: ')
 print(ODDELOVAC)
 
-if choice.isalpha():
-    print('You have to fill only NUMBERS between 1 - 3.')
-elif int(choice) not in range(1, 4):
-    print('You have to fill only NUMBERS between 1 - 3.')
-else:
+if choice.isnumeric() and int(choice) in range(1, 4):
     text = TEXTS[int(choice) - 1].split()
     counts['words'] = len(text)
+    lenght = {}
+
     for word in text:
-        word.strip(',.')
-        word_l = (len(word.strip(',.'))) #lenght of word
-        lenght.setdefault(word_l, 0)
-        lenght[word_l] += 1
+        lenght.setdefault((len(word.strip(',.'))), 0)
+        lenght[(len(word.strip(',.')))] += 1
         if word.istitle():
             counts['titles'] += 1
         elif word.isupper():
@@ -76,24 +73,28 @@ else:
         elif word.isnumeric():
             counts['num'] += 1
             counts['sum_num'] += int(word)
-    print(
-        f'''There are {counts['words']} words in the selected text.
-There are {counts['titles']} titlecase words.
-There are {counts['all_cap']} uppercase words.
-There are {counts['all_low']} lowercase words.
-There are {counts['num']} numeric strings.
-The sum of all the numbers is {counts['sum_num']}.'''
-    )
-    print (ODDELOVAC)
+    print(f'''There are {counts['words']} words in the selected text.''',
+    f'''There are {counts['titles']} titlecase words.''',
+    f'''There are {counts['all_cap']} uppercase words.''',
+    f'''There are {counts['all_low']} lowercase words.''',
+    f'''There are {counts['num']} numeric strings.''',
+    f'''The sum of all the numbers is {counts['sum_num']}.''',
+          sep="\n"
+       )
+    print(ODDELOVAC)
 
     print(
-        'LEN|'.rjust(5), 'OCCURENCES'.ljust(15), '|NR.'.ljust(20)
+        'LEN|'.rjust(5),
+        'OCCURENCES'.center(15).ljust(15),
+        '|NR.'
     )
     print(ODDELOVAC)
-    keys = list(lenght.keys())
-    keys.sort()
-    for key in keys:
-        occurences = '*' * lenght[key]
+    for index, key in enumerate(sorted(list(lenght.keys()))):
         print(
-            f'{key}|'.rjust(5), f'{occurences}'.ljust(15), f'|{lenght[key]}'.ljust(20)
+            f'{index}|'.rjust(5),
+            f'{lenght[key] * "*"}'.ljust(15),
+            f'|{lenght[key]}'
         )
+
+else:
+    print('You have to fill only NUMBERS between 1 - 3.')
